@@ -13,8 +13,9 @@ class LoginCell: UICollectionViewCell {
     
     let logoImageView: UIImageView = {
         let imageView = UIImageView(image: #imageLiteral(resourceName: "logo"))
-        imageView.constrainHeight(constant: 160)
-        imageView.constrainWidth(constant: 120)
+//        imageView.constrainHeight(constant: 120)
+//        imageView.constrainWidth(constant: 120)
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -44,18 +45,17 @@ class LoginCell: UICollectionViewCell {
         button.constrainHeight(constant: 50)
         return button
     }()
+    lazy var mainStack:UIStackView = {
+       let s = getStack(views:logoImageView,emailTextField,passwordTextField,loginButton , spacing: 8, distribution: .fill, axis: .vertical)
+        
+        return s
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addSubViews(views: logoImageView,emailTextField,passwordTextField,loginButton)
-        
-        logoImageView.anchor(top: topAnchor, leading: nil, bottom: nil, trailing: nil,padding: .init(top: 60, left: 0, bottom: 0, right: 0))
-        logoImageView.centerXInSuperview()
-        
-        emailTextField.anchor(top: logoImageView.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor,padding: .init(top: 16, left: 32, bottom: 0, right: 32))
-        passwordTextField.anchor(top: emailTextField.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor,padding: .init(top: 16, left: 32, bottom: 0, right: 32))
-        loginButton.anchor(top: passwordTextField.bottomAnchor, leading: leadingAnchor, bottom: nil, trailing: trailingAnchor,padding: .init(top: 16, left: 32, bottom: 0, right: 32))
+        addSubViews(views: mainStack)
+        mainStack.centerInSuperview(size: .init(width: frame.width - 32, height: 0))
     }
     
     required init?(coder aDecoder: NSCoder) {
